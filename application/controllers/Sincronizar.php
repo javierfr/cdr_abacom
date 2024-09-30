@@ -5,7 +5,7 @@ ini_set('memory_limit','2048M');
 // require_once(APPPATH.'libraries/vendor/php-excel-reader/excel_reader2.php');
 // require_once(APPPATH.'libraries/vendor/PhpSpreadsheet/');
 
-require 'vendor/autoload.php';
+// require 'vendor/autoload.php';
 
 // use PhpOffice\PhpSpreadsheet\Spreadsheet;
 // use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -33,7 +33,7 @@ class Sincronizar extends CI_Controller
             redirect(base_url().'Auth');
         }
         try {
-            $data['titulo']        = 'Abacon Telecomunicaciones | Sincronización';
+            $data['titulo']        = 'Abacon Telecomunicaciones | Sincronizaciï¿½n';
             $data['pagina']        = 'Llamadas';
             $data["header"]  = $this->load->view('layout/layout_menu', '', true);
             $data["menu_left"]  = $this->load->view('layout/layout_menu_left', '', true);
@@ -474,7 +474,7 @@ class Sincronizar extends CI_Controller
             $params = array(new xmlrpcval(array(
                 "i_account"          => new xmlrpcval($troncal, "int"),
             ), 'struct'));
-            // Objetngo informaci¨®n de la cuenta
+            // Objetngo informaciï¿½ï¿½n de la cuenta
             //$msg_did = new xmlrpcmsg('getAccountInfo', $params);
             // Obtengo lineas contratadas
             $msg = new xmlrpcmsg('getDIDsList', $params);
