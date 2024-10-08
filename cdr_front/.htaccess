@@ -1,15 +1,18 @@
-# Añadir los tipos MIME correctos para JS y CSS
-<IfModule mod_mime.c>
-    AddType application/javascript .js
-    AddType text/css .css
+<IfModule mod_headers.c>
+   Header set Cache-Control "no-store, no-cache, must-revalidate"
 </IfModule>
 
-# Asegurar que todas las rutas sean manejadas correctamente por Angular
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /cdr_front/dist/
-    RewriteRule ^index\.html$ - [L]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . /cdr_front/dist/index.html [L]
+   RewriteEngine On
+   RewriteBase /cdr_front/dist/
+   RewriteRule ^index\.html$ - [L]
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteCond %{REQUEST_FILENAME} !-d
+   RewriteRule . /cdr_front/dist/index.html [L]
 </IfModule>
+
+<IfModule mod_mime.c>
+   AddType application/javascript .js
+   AddType text/css .css
+</IfModule>
+
