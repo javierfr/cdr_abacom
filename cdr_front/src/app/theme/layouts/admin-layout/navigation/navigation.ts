@@ -71,6 +71,14 @@ export const NavigationItems: NavigationItem[] = [
     icon: 'icon-navigation',
     children: [
       {
+        id: 'clientes',
+        title: 'Clientes',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/clientes',
+        icon: 'profile'
+      },
+      {
         id: 'typography',
         title: 'Typography',
         type: 'item',
