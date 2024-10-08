@@ -1,8 +1,8 @@
 <IfModule mod_rewrite.c>
    RewriteEngine On
-   RewriteBase /cdr_front/
+   RewriteBase /cdr_front/dist/
    RewriteRule ^index\.html$ - [L]
    RewriteCond %{REQUEST_FILENAME} !-f
    RewriteCond %{REQUEST_FILENAME} !-d
-   RewriteRule . /cdr_front/index.html [L]
+   RewriteRule . /cdr_front/dist/index.html [L]
 </IfModule>
