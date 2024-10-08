@@ -1,18 +1,22 @@
+# Control de Caché
 <IfModule mod_headers.c>
    Header set Cache-Control "no-store, no-cache, must-revalidate"
 </IfModule>
 
+# Reescritura de URLs para Angular (rutas internas redirigidas a index.html)
 <IfModule mod_rewrite.c>
    RewriteEngine On
    RewriteBase /cdr_front/dist/
-   RewriteRule ^index\.html$ - [L]
    RewriteCond %{REQUEST_FILENAME} !-f
    RewriteCond %{REQUEST_FILENAME} !-d
-   RewriteRule . /cdr_front/dist/index.html [L]
+   RewriteRule ^(.*)$ /cdr_front/dist/index.html [L]
 </IfModule>
 
+# Tipos MIME correctos para archivos JS y CSS
 <IfModule mod_mime.c>
    AddType application/javascript .js
    AddType text/css .css
 </IfModule>
 
+# Configuración de manejo de errores personalizados (opcional)
+ErrorDocument 404 /cdr_front/dist/index.html
