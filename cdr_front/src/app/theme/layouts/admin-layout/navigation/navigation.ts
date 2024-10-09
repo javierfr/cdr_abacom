@@ -79,6 +79,14 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'profile'
       },
       {
+        id: 'sinconizar',
+        title: 'Sincronizar',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/sincronizar',
+        icon: 'profile'
+      },
+      {
         id: 'typography',
         title: 'Typography',
         type: 'item',
@@ -94,16 +102,16 @@ export const NavigationItems: NavigationItem[] = [
         url: '/color',
         icon: 'bg-colors'
       },
-      {
-        id: 'tabler',
-        title: 'Tabler',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://ant.design/components/icon',
-        icon: 'ant-design',
-        target: true,
-        external: true
-      }
+      // {
+      //   id: 'tabler',
+      //   title: 'Tabler',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'https://ant.design/components/icon',
+      //   icon: 'ant-design',
+      //   target: true,
+      //   external: true
+      // }
     ]
   },
 
@@ -121,16 +129,16 @@ export const NavigationItems: NavigationItem[] = [
         classes: 'nav-item',
         icon: 'chrome'
       },
-      {
-        id: 'document',
-        title: 'Document',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/mantis-angular/',
-        icon: 'question',
-        target: true,
-        external: true
-      }
+      // {
+      //   id: 'document',
+      //   title: 'Document',
+      //   type: 'item',
+      //   classes: 'nav-item',
+      //   url: 'https://codedthemes.gitbook.io/mantis-angular/',
+      //   icon: 'question',
+      //   target: true,
+      //   external: true
+      // }
     ]
   }
 ];

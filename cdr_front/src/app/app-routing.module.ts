@@ -36,6 +36,10 @@ const routes: Routes = [
         path: 'clientes',
         loadComponent: () => import('./demo/clientes/cliente/cliente.component')
       },
+      {
+        path: 'sincronizar',
+        loadComponent: () => import('./demo/sincronizar/sincronizar.component')
+      },
     ]
   },
   {
