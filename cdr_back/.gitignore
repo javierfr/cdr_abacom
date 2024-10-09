@@ -2,12 +2,12 @@
 /vendor/
 
 # Exceptuar PhpSpreadsheet y Composer dentro de vendor (permitir que se suban)
-!vendor/phpoffice/
-!vendor/composer/
+# !vendor/phpoffice/
+# !vendor/composer/
 
 # Asegurar que se suban todos los archivos dentro de phpoffice y composer
-!vendor/phpoffice/**/*
-!vendor/composer/**/*
+# !vendor/phpoffice/**/*
+# !vendor/composer/**/*
 # Ignorar la carpeta de composer.lock si no deseas rastrear los cambios en dependencias específicas
 # composer.lock
 
