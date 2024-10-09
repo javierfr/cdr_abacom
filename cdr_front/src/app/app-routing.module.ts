@@ -38,7 +38,7 @@ const routes: Routes = [
       },
       {
         path: 'sincronizar',
-        loadComponent: () => import('./demo/sincronizar/sincronizar.component')
+        loadComponent: () => import('./demo/sincronizacion/sincronizar/sincronizar.component')
       },
     ]
   },
