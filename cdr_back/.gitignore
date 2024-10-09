@@ -1,0 +1,30 @@
+# Ignorar toda la carpeta vendor
+/vendor/
+
+# Exceptuar PhpSpreadsheet de la carpeta vendor
+!vendor/phpoffice/
+!vendor/composer/
+# Ignorar la carpeta de composer.lock si no deseas rastrear los cambios en dependencias específicas
+# composer.lock
+
+# Ignorar archivos de configuración locales (si tienes configuraciones específicas para desarrollo o producción)
+# /.env
+# /.env.*
+
+# Ignorar los archivos de caché de CodeIgniter
+/writable/cache/
+/writable/logs/
+/writable/debugbar/
+/writable/sessions/
+
+# Ignorar archivos temporales o de backup
+*.bak
+*.tmp
+
+# Ignorar IDE específicos (opcional, dependiendo del IDE que uses)
+.vscode/
+.idea/
+
+# Ignorar los archivos que PhpSpreadsheet genera temporalmente
+*.xlsx
+*.csv
