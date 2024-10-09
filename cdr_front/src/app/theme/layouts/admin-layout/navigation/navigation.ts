@@ -79,7 +79,7 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'profile'
       },
       {
-        id: 'sinconizar',
+        id: 'sincronizar',
         title: 'Sincronizar',
         type: 'item',
         classes: 'nav-item',

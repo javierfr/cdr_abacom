@@ -1,9 +1,23 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root'  // Declaramos el servicio a nivel de aplicación
 })
 export class SincronizarService {
 
-  constructor() { }
+  private apiUrl = 'https://cdr.abacom.mx/api/sincronizar/uploadExcel';  // URL del endpoint de CodeIgniter
+
+  constructor(private http: HttpClient) { }
+
+  // Método para subir el archivo Excel
+  uploadExcel(file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);  // Añadimos el archivo al FormData
+
+    const headers = new HttpHeaders();  // Puedes agregar más cabeceras si es necesario
+
+    return this.http.post(this.apiUrl, formData, { headers });
+  }
 }

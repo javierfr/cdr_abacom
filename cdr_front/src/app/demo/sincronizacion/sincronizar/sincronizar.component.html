@@ -1,38 +1,36 @@
 <div class="auth-main">
-    <div class="auth-wrapper v3">
-      <div class="auth-form">
-        <div class="card my-5">
-          <div class="card-body">
-            <!-- Formulario de sincronización -->
-            <h3 class="mb-4"><b>Sincronización</b></h3>
-  
-            <!-- Sección: Importar archivo de Excel a MySQL -->
-            <div class="mb-5">
-              <h5><b>Importar archivo de Excel a MySQL</b></h5>
-              <form action="/upload-excel" method="POST" enctype="multipart/form-data">
-                <div class="form-group mb-3">
-                  <label class="form-label" for="excelFile">Campo del archivo</label>
-                  <div class="input-group">
-                    <input type="file" class="form-control" id="excelFile" name="excelFile" />
-                    <button class="btn btn-primary" type="submit">Subir</button>
-                  </div>
-                </div>
-              </form>
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="card my-5">
+        <div class="card-body">
+          <!-- Formulario de sincronización -->
+          <h3 class="mb-4"><b>Sincronización</b></h3>
+
+          <!-- Sección: Importar archivo de Excel a MySQL -->
+          <div class="mb-5">
+            <h5><b>Importar archivo de Excel a MySQL</b></h5>
+            <!-- Modificamos el formulario para que maneje el evento de selección de archivo -->
+            <div class="form-group mb-3">
+              <label class="form-label" for="excelFile">Campo del archivo</label>
+              <div class="input-group">
+                <!-- Cuando se selecciona un archivo, ejecuta onFileSelected -->
+                <input type="file" class="form-control" id="excelFile" (change)="onFileSelected($event)" />
+                <!-- Cuando se hace clic en el botón, ejecuta onUpload -->
+                <button class="btn btn-primary" (click)="onUpload()">Subir</button>
+              </div>
             </div>
-  
-            <!-- Sección: Importar archivo de MySQL a ZOHO -->
-            <div class="mb-4">
-              <h5><b>Importar archivo de MySQL a ZOHO</b></h5>
-              <form action="/sync-zoho" method="POST">
-                <div class="d-grid">
-                  <button type="submit" class="btn btn-primary">Sincronizar</button>
-                </div>
-              </form>
-            </div>
-  
           </div>
+
+          <!-- Sección: Importar archivo de MySQL a ZOHO -->
+          <div class="mb-4">
+            <h5><b>Importar archivo de MySQL a ZOHO</b></h5>
+            <div class="d-grid">
+              <button class="btn btn-primary">Sincronizar</button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
-  
+</div>

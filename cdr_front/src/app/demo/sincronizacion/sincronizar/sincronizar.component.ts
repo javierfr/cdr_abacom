@@ -1,12 +1,39 @@
 import { Component } from '@angular/core';
+import { SincronizarService } from '../services/sincronizar.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sincronizar',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],  // Importamos HttpClientModule para standalone
   templateUrl: './sincronizar.component.html',
-  styleUrl: './sincronizar.component.scss'
+  styleUrls: ['./sincronizar.component.scss']
 })
 export default class SincronizarComponent {
+  
+  selectedFile: File = null;  // Para almacenar el archivo seleccionado
 
+  constructor(private sincronizarService: SincronizarService) { }
+
+  // Método que se ejecuta cuando se selecciona un archivo
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];  // Almacenar el archivo seleccionado
+  }
+
+  // Método para manejar la subida del archivo
+  onUpload() {
+    if (this.selectedFile) {
+      // Llamar al servicio para subir el archivo
+      this.sincronizarService.uploadExcel(this.selectedFile).subscribe(
+        (response) => {
+          console.log('Archivo subido con éxito', response);
+        },
+        (error) => {
+          console.error('Error al subir el archivo:', error);
+        }
+      );
+    } else {
+      console.log('Por favor selecciona un archivo');
+    }
+  }
 }
