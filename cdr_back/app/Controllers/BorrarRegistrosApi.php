@@ -4,13 +4,15 @@ namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\BorrarModel;
+use CodeIgniter\API\ResponseTrait;
 
 class BorrarRegistrosApi extends ResourceController
 {
+    use ResponseTrait;  // Para manejar las respuestas JSON de manera sencilla
+
     protected $modelName = 'App\Models\BorrarModel';
     protected $format    = 'json';
 
-    // Método para borrar todos los registros de una tabla específica
     public function deleteAll()
     {
         // Nombre de la tabla que se quiere borrar
@@ -30,7 +32,8 @@ class BorrarRegistrosApi extends ResourceController
                 return $this->failServerError('Ocurrió un error al intentar borrar los registros.');
             }
         } catch (\Exception $e) {
-            return $this->failServerError($e->getMessage());
+            log_message('error', 'Error en deleteAll: ' . $e->getMessage());
+            return $this->failServerError('Error interno del servidor: ' . $e->getMessage());
         }
     }
 }
