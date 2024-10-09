@@ -1,9 +1,15 @@
 # Ignorar toda la carpeta vendor
 /vendor/
 
-# Exceptuar PhpSpreadsheet de la carpeta vendor
+# Exceptuar PhpSpreadsheet y composer en vendor (subir solo estas dos)
 !vendor/phpoffice/
 !vendor/composer/
+
+# Ignorar todo lo demás dentro de vendor, incluyendo subcarpetas dentro de phpoffice o composer
+# /vendor/*/*
+!vendor/phpoffice/**/*
+!vendor/composer/**/*
+
 # Ignorar la carpeta de composer.lock si no deseas rastrear los cambios en dependencias específicas
 # composer.lock
 
@@ -14,8 +20,9 @@
 # Ignorar los archivos de caché de CodeIgniter
 /writable/cache/
 /writable/logs/
-/writable/debugbar/
-/writable/sessions/
+# /writable/debugbar/
+/writable/session/
+# /writable/sessions/
 
 # Ignorar archivos temporales o de backup
 *.bak
