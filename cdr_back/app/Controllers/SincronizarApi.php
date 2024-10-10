@@ -83,7 +83,11 @@ class SincronizarApi extends ResourceController
                 // Borra el archivo una vez procesado
                 unlink($filePath);
     
-                return $this->respond(['status' => 'success', 'data' => $list], 200);
+                // Devuelve un resumen de la operación sin los registros
+            return $this->respond([
+                'status' => 'success',
+                'message' => "Se han insertado " . count($list) . " registros correctamente.",
+            ], 200);
             } catch (\Exception $e) {
                 log_message('error', 'Error procesando el archivo: ' . $e->getMessage());
                 return $this->failServerError('Error interno al procesar el archivo.');
