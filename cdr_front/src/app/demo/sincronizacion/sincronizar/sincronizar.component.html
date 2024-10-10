@@ -6,16 +6,19 @@
           <!-- Formulario de sincronización -->
           <h3 class="mb-4"><b>Sincronización</b></h3>
 
+          <!-- Alerta -->
+          <div *ngIf="showAlert" class="alert alert-{{alertType}} alert-dismissible fade show" role="alert">
+            {{ alertMessage }}
+            <button type="button" class="btn-close" (click)="closeAlert()" aria-label="Close"></button>
+          </div>
+
           <!-- Sección: Importar archivo de Excel a MySQL -->
           <div class="mb-5">
             <h5><b>Importar archivo de Excel a MySQL</b></h5>
-            <!-- Modificamos el formulario para que maneje el evento de selección de archivo -->
             <div class="form-group mb-3">
               <label class="form-label" for="excelFile">Campo del archivo</label>
               <div class="input-group">
-                <!-- Cuando se selecciona un archivo, ejecuta onFileSelected -->
                 <input type="file" class="form-control" id="excelFile" (change)="onFileSelected($event)" />
-                <!-- Cuando se hace clic en el botón, ejecuta onUpload -->
                 <button class="btn btn-primary" (click)="onUpload()">Subir</button>
               </div>
             </div>
