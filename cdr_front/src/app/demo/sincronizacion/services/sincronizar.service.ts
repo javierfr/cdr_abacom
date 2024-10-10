@@ -16,7 +16,9 @@ export class SincronizarService {
     const formData: FormData = new FormData();
     formData.append('file', file);  // Añadimos el archivo al FormData
 
-    const headers = new HttpHeaders();  // Puedes agregar más cabeceras si es necesario
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',  // Asegurarse de que el servidor acepte JSON
+    });
 
     return this.http.post(this.apiUrl, formData, { headers });
   }

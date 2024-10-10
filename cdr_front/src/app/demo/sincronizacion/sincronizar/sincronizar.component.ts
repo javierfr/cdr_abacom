@@ -17,13 +17,12 @@ export default class SincronizarComponent {
 
   // Método que se ejecuta cuando se selecciona un archivo
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];  // Almacenar el archivo seleccionado
-  }
+    this.selectedFile = event.target.files[0];  // Captura el archivo CSV
+  }  
 
   // Método para manejar la subida del archivo
   onUpload() {
     if (this.selectedFile) {
-      // Llamar al servicio para subir el archivo
       this.sincronizarService.uploadExcel(this.selectedFile).subscribe(
         (response) => {
           console.log('Archivo subido con éxito', response);
@@ -33,7 +32,7 @@ export default class SincronizarComponent {
         }
       );
     } else {
-      console.log('Por favor selecciona un archivo');
+      console.log('Por favor selecciona un archivo.');
     }
-  }
+  }  
 }
