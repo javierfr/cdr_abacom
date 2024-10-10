@@ -58,22 +58,21 @@ export default class SincronizarComponent {
   onSincronizar() {
     this.sincronizarService.sincronizarZoho().subscribe(
       (response) => {
-        // Si la sincronización fue exitosa
         console.log('Sincronización con Zoho exitosa', response);
         this.alertMessage = 'Sincronización con Zoho exitosa';
-        this.alertType = 'success';  // Cambiamos el tipo de alerta a "success"
-        this.showAlert = true;       // Mostramos la alerta
-        this.hideAlertAfterTimeout(); // Ocultamos la alerta después de cierto tiempo
+        this.alertType = 'success';
+        this.showAlert = true;
+        this.hideAlertAfterTimeout();
       },
       (error) => {
-        // Si ocurre un error durante la sincronización
-        console.error('Error al sincronizar con Zoho', error);
-        this.alertMessage = 'Error al sincronizar con Zoho';
-        this.alertType = 'danger';  // Cambiamos el tipo de alerta a "danger"
-        this.showAlert = true;      // Mostramos la alerta
+        console.error('Error al sincronizar con Zoho:', error);
+        this.alertMessage = error.message || 'Error al sincronizar con Zoho';
+        this.alertType = 'danger';
+        this.showAlert = true;
       }
     );
   }
+  
   
 
   // Ocultar la alerta después de 3 segundos
