@@ -26,10 +26,10 @@ class SincronizarApi extends ResourceController
         // Configuración para la carga de archivos
         $validationRule = [
             'file' => [
-                'label' => 'Excel File',
-                'rules' => 'uploaded[file]|mime_in[file,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv]|max_size[file,2048]',
+                'label' => 'CSV File',
+                'rules' => 'uploaded[file]|mime_in[file,text/csv,application/csv,text/plain,application/vnd.ms-excel]|max_size[file,10240]',
             ],
-        ];
+        ];        
 
         if (! $this->validate($validationRule)) {
             return $this->fail($this->validator->getErrors());
@@ -40,22 +40,23 @@ class SincronizarApi extends ResourceController
         if ($file->isValid() && ! $file->hasMoved()) {
             $fileName = $file->getRandomName();
             $file->move(WRITEPATH . 'uploads', $fileName);
-
+        
             $filePath = WRITEPATH . 'uploads/' . $fileName;
             $extension = $file->getClientExtension();
-
-            // Elige el lector correcto para el archivo
+        
+            // Elige el lector correcto para el archivo CSV o Excel
             if ($extension == 'csv') {
-                $reader = new Csv();
+                $reader = new Csv();  // Lector de archivos CSV
             } else {
-                $reader = new Xlsx();
+                $reader = new Xlsx();  // Lector de archivos XLSX
             }
-
+        
             try {
                 // Cargar y procesar el archivo
                 $spreadsheet = $reader->load($filePath);
                 $sheetData = $spreadsheet->getActiveSheet()->toArray();
-
+                
+                // Procesa el contenido del archivo CSV
                 $list = [];
                 foreach ($sheetData as $key => $val) {
                     if ($key != 0) {
@@ -78,15 +79,16 @@ class SincronizarApi extends ResourceController
                         $list[] = $registro;
                     }
                 }
-
+        
                 // Borra el archivo una vez procesado
                 unlink($filePath);
-
+        
                 return $this->respond(['status' => 'success', 'data' => $list], 200);
             } catch (\Exception $e) {
                 return $this->failServerError($e->getMessage());
             }
         }
+        
 
         return $this->fail('Archivo no válido o no se pudo procesar.');
     }
