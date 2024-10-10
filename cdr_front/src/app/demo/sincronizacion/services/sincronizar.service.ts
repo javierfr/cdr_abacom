@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'  // Declaramos el servicio a nivel de aplicación
@@ -15,11 +15,22 @@ export class SincronizarService {
   uploadExcel(file: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file);  // Añadimos el archivo al FormData
-
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',  // Asegurarse de que el servidor acepte JSON
-    });
-
-    return this.http.post(this.apiUrl, formData, { headers });
+  
+    return this.http.post(this.apiUrl, formData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        // Aquí podemos capturar el error HTTP y devolver un mensaje de error
+        console.error('Error al subir el archivo:', error);
+  
+        // Si es un error de respuesta, podemos devolver el mensaje adecuado
+        if (error.error instanceof ErrorEvent) {
+          // Error del lado del cliente
+          return throwError(() => new Error('Error en la subida del archivo. Intenta nuevamente.'));
+        } else {
+          // Error del lado del servidor
+          return throwError(() => new Error(`Error del servidor: ${error.status} ${error.statusText}`));
+        }
+      })
+    );
   }
+  
 }

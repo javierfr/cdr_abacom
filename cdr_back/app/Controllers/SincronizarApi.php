@@ -11,7 +11,7 @@ use App\Models\SincronizarModel;
 class SincronizarApi extends ResourceController
 {
     protected $modelName = 'App\Models\SincronizarModel';
-    protected $format    = 'json';
+    protected $format = 'json';
 
     public function __construct()
     {
@@ -21,42 +21,42 @@ class SincronizarApi extends ResourceController
     // Método para procesar la carga de Excel
     public function uploadExcel()
     {
-        $json = [];
-
-        // Configuración para la carga de archivos
         $validationRule = [
             'file' => [
                 'label' => 'CSV File',
                 'rules' => 'uploaded[file]|mime_in[file,text/csv,application/csv,text/plain,application/vnd.ms-excel]|max_size[file,10240]',
             ],
-        ];        
-
+        ];
+    
         if (! $this->validate($validationRule)) {
-            return $this->fail($this->validator->getErrors());
+            // Registrar los errores en los logs para depuración
+            log_message('error', 'Error de validación: ' . json_encode($this->validator->getErrors()));
+            
+            // Devolver un error de validación en formato JSON
+            return $this->fail($this->validator->getErrors(), 400);
         }
-
+    
         $file = $this->request->getFile('file');
-
+    
         if ($file->isValid() && ! $file->hasMoved()) {
             $fileName = $file->getRandomName();
             $file->move(WRITEPATH . 'uploads', $fileName);
-        
+    
             $filePath = WRITEPATH . 'uploads/' . $fileName;
             $extension = $file->getClientExtension();
-        
+    
             // Elige el lector correcto para el archivo CSV o Excel
             if ($extension == 'csv') {
                 $reader = new Csv();  // Lector de archivos CSV
             } else {
                 $reader = new Xlsx();  // Lector de archivos XLSX
             }
-        
+    
             try {
                 // Cargar y procesar el archivo
                 $spreadsheet = $reader->load($filePath);
                 $sheetData = $spreadsheet->getActiveSheet()->toArray();
-                
-                // Procesa el contenido del archivo CSV
+    
                 $list = [];
                 foreach ($sheetData as $key => $val) {
                     if ($key != 0) {
@@ -79,17 +79,17 @@ class SincronizarApi extends ResourceController
                         $list[] = $registro;
                     }
                 }
-        
+    
                 // Borra el archivo una vez procesado
                 unlink($filePath);
-        
+    
                 return $this->respond(['status' => 'success', 'data' => $list], 200);
             } catch (\Exception $e) {
-                return $this->failServerError($e->getMessage());
+                log_message('error', 'Error procesando el archivo: ' . $e->getMessage());
+                return $this->failServerError('Error interno al procesar el archivo.');
             }
         }
-        
-
-        return $this->fail('Archivo no válido o no se pudo procesar.');
+    
+        return $this->fail('Archivo no válido o no se pudo procesar.', 400);
     }
 }
