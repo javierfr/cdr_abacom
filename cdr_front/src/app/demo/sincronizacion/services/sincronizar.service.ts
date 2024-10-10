@@ -7,7 +7,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class SincronizarService {
 
-  private apiUrl = 'https://cdr.abacom.mx/api/sincronizar/uploadExcel';  // URL del endpoint de CodeIgniter
+  private apiUrl = 'https://cdr.abacom.mx/api/sincronizar/';  // URL del endpoint de CodeIgniter
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +16,7 @@ export class SincronizarService {
     const formData: FormData = new FormData();
     formData.append('file', file);  // Añadimos el archivo al FormData
   
-    return this.http.post(this.apiUrl, formData).pipe(
+    return this.http.post(this.apiUrl+'uploadExcel', formData).pipe(
       catchError((error: HttpErrorResponse) => {
         // Aquí podemos capturar el error HTTP y devolver un mensaje de error
         console.error('Error al subir el archivo:', error);
@@ -32,5 +32,9 @@ export class SincronizarService {
       })
     );
   }
-  
+ 
+  // Método para sincronizar con Zoho
+  sincronizarZoho(): Observable<any> {
+    return this.http.post(this.apiUrl+'zoho', {});
+  }
 }
