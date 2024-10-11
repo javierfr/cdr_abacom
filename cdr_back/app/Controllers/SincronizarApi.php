@@ -200,6 +200,7 @@ class SincronizarApi extends ResourceController
             ));
 
             $response = curl_exec($curl);
+            print_r($response);
             $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
             if ($httpStatus != 200) {
