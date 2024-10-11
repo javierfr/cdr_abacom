@@ -175,48 +175,57 @@ class SincronizarApi extends ResourceController
 
     // Función para generar el token de acceso a Zoho Creator
     function generateTokenCreator()
-    {
-        try {
-            $curl = curl_init();
+{
+    try {
+        $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://accounts.zoho.com/oauth/v2/token",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => array(
-                    'client_id' => '1000.YONV8KREOHCS32PH7RMYQ42HS1PP5H',
-                    'client_secret' => 'fc3162f7f3e0ede057de01d7388d5a37a3d45cec07',
-                    'refresh_token' => '1000.8491c97fb001da2800fa1616bc7c7599.38ee25ee9e88502e952583bec3b27932',
-                    'grant_type' => 'refresh_token'
-                ),
-                CURLOPT_HTTPHEADER => array(
-                    "Content-Type: application/x-www-form-urlencoded"
-                ),
-            ));
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://accounts.zoho.com/oauth/v2/token",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => http_build_query([
+                'client_id' => '1000.YONV8KREOHCS32PH7RMYQ42HS1PP5H',
+                'client_secret' => 'fc3162f7f3e0ede057de01d7388d5a37a3d45cec07',
+                'refresh_token' => '1000.8491c97fb001da2800fa1616bc7c7599.38ee25ee9e88502e952583bec3b27932',
+                'grant_type' => 'refresh_token'
+            ]),
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/x-www-form-urlencoded"
+            ),
+        ));
 
-            $response = curl_exec($curl);
-            echo $response;
-            $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $response = curl_exec($curl);
+        $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-            if ($httpStatus != 200) {
-                log_message('error', 'Error al obtener el token de Zoho. HTTP Status: ' . $httpStatus . ' Response: ' . $response);
-                curl_close($curl);
-                return null;
-            }
-
-            $obj = json_decode($response);
+        // Si el status HTTP no es 200, registrar el error
+        if ($httpStatus != 200) {
+            log_message('error', 'Error al obtener el token de Zoho. HTTP Status: ' . $httpStatus . ' Response: ' . $response);
             curl_close($curl);
-            return $obj->{'access_token'};
-        } catch (\Exception $e) {
-            log_message('error', 'Error al generar el token de acceso: ' . $e->getMessage());
             return null;
         }
+
+        $obj = json_decode($response);
+
+        // Si no se puede decodificar la respuesta JSON, registrar el error
+        if (!$obj) {
+            log_message('error', 'Error al decodificar la respuesta de Zoho: ' . $response);
+            curl_close($curl);
+            return null;
+        }
+
+        curl_close($curl);
+        return $obj->{'access_token'};
+    } catch (\Exception $e) {
+        log_message('error', 'Error al generar el token de acceso: ' . $e->getMessage());
+        return null;
     }
+}
+
 
 
     // Función para insertar las llamadas en Zoho Creator
