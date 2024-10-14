@@ -7,6 +7,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class SincronizarService {
 
+  // private apiUrl = 'http://localhost:8080/api/sincronizar/';  // URL del endpoint de CodeIgniter
   private apiUrl = 'https://cdr.abacom.mx/api/sincronizar/';  // URL del endpoint de CodeIgniter
 
   constructor(private http: HttpClient) { }
@@ -18,23 +19,34 @@ export class SincronizarService {
   
     return this.http.post(this.apiUrl+'uploadExcel', formData).pipe(
       catchError((error: HttpErrorResponse) => {
-        // Aquí podemos capturar el error HTTP y devolver un mensaje de error
-        console.error('Error al subir el archivo:', error);
-  
-        // Si es un error de respuesta, podemos devolver el mensaje adecuado
+        let errorMsg = 'Error desconocido al subir el archivo';
         if (error.error instanceof ErrorEvent) {
-          // Error del lado del cliente
-          return throwError(() => new Error('Error en la subida del archivo. Intenta nuevamente.'));
+          // Error del cliente
+          errorMsg = `Error del cliente: ${error.error.message}`;
         } else {
-          // Error del lado del servidor
-          return throwError(() => new Error(`Error del servidor: ${error.status} ${error.statusText}`));
+          // Error del servidor
+          errorMsg = `Error del servidor: ${error.status} - ${error.statusText}`;
         }
+        return throwError(() => new Error(errorMsg));
       })
     );
   }
  
   // Método para sincronizar con Zoho
   sincronizarZoho(): Observable<any> {
-    return this.http.post(this.apiUrl+'zoho', {});
+    return this.http.post(this.apiUrl + 'zoho', {})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          let errorMsg = 'Error desconocido al sincronizar con Zoho';
+          if (error.error instanceof ErrorEvent) {
+            // Error del cliente
+            errorMsg = `Error del cliente: ${error.error.message}`;
+          } else {
+            // Error del servidor
+            errorMsg = `Error del servidor: ${error.status} - ${error.statusText}`;
+          }
+          return throwError(() => new Error(errorMsg));
+        })
+      );
   }
 }

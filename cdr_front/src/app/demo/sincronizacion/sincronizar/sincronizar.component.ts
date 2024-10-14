@@ -10,26 +10,26 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./sincronizar.component.scss']
 })
 export default class SincronizarComponent {
-  
-  selectedFile: File = null;  // Para almacenar el archivo seleccionado
-  showAlert: boolean = false; // Para mostrar o esconder la alerta
-  alertMessage: string = '';  // Mensaje del alert
-  alertType: string = 'danger'; // Tipo de alerta (success, danger, etc.)
+
+  selectedFile: File = null;
+  showAlert: boolean = false;
+  alertMessage: string = '';
+  alertType: string = 'danger';
 
   constructor(private sincronizarService: SincronizarService) { }
 
   // Método que se ejecuta cuando se selecciona un archivo
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];  // Asegúrate de que se está capturando el archivo
+    this.selectedFile = event.target.files[0];
     if (this.selectedFile) {
-      this.showAlert = false; // Oculta la alerta si se seleccionó un archivo
-      console.log('Archivo seleccionado:', this.selectedFile.name);  // Verifica que se captura el archivo
+      this.showAlert = false;
+      console.log('Archivo seleccionado:', this.selectedFile.name);
     } else {
-      this.showAlert = true; // Muestra la alerta si no se seleccionó archivo
+      this.showAlert = true;
       this.alertMessage = 'Por favor selecciona un archivo';
     }
   }
-  
+
   // Método para manejar la subida del archivo
   onUpload() {
     if (this.selectedFile) {
@@ -42,7 +42,7 @@ export default class SincronizarComponent {
           console.log('Archivo subido con éxito', response);
         },
         (error) => {
-          this.alertMessage = 'Error al subir el archivo';
+          this.alertMessage = error.message || 'Error al subir el archivo';
           this.alertType = 'danger'; // Tipo danger para errores
           this.showAlert = true;
           console.error('Error al subir el archivo:', error);
@@ -55,31 +55,30 @@ export default class SincronizarComponent {
     }
   }
 
+  // Método para manejar la sincronización con Zoho
   onSincronizar() {
     this.sincronizarService.sincronizarZoho().subscribe(
       (response) => {
-        console.log('Sincronización con Zoho exitosa', response);
         this.alertMessage = 'Sincronización con Zoho exitosa';
         this.alertType = 'success';
         this.showAlert = true;
         this.hideAlertAfterTimeout();
+        console.log('Sincronización con Zoho exitosa', response);
       },
       (error) => {
-        console.error('Error al sincronizar con Zoho:', error);
         this.alertMessage = error.message || 'Error al sincronizar con Zoho';
         this.alertType = 'danger';
         this.showAlert = true;
+        console.error('Error al sincronizar con Zoho:', error);
       }
     );
   }
-  
-  
 
   // Ocultar la alerta después de 3 segundos
   hideAlertAfterTimeout() {
     setTimeout(() => {
       this.showAlert = false;
-    }, 3000); // Ocultar la alerta después de 3 segundos
+    }, 3000);
   }
 
   // Método para cerrar la alerta manualmente

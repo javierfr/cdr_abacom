@@ -1,15 +1,24 @@
 <?php return array(
     'root' => array(
-        'name' => 'codeigniter4/framework',
+        'name' => 'myproject/codeigniter4-app',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'e21423dce514c9a88e30d499a56aff10123547a2',
+        'reference' => '9cc43d048895840e0fd6a1fdaf6075ebfe0eba0b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'agungsugiarto/codeigniter4-cors' => array(
+            'pretty_version' => 'v3.0.0',
+            'version' => '3.0.0.0',
+            'reference' => '4b7ed2d0f6dfd6f84983b8e7f2afc99a34e54607',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../agungsugiarto/codeigniter4-cors',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'clue/ndjson-react' => array(
             'pretty_version' => 'v1.3.0',
             'version' => '1.3.0.0',
@@ -29,11 +38,11 @@
             'dev_requirement' => true,
         ),
         'codeigniter4/framework' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'e21423dce514c9a88e30d499a56aff10123547a2',
+            'pretty_version' => 'v4.5.5',
+            'version' => '4.5.5.0',
+            'reference' => '2849e7ff36b4c4aa1376d990a9a1e3f0c393b8d0',
             'type' => 'project',
-            'install_path' => __DIR__ . '/../../',
+            'install_path' => __DIR__ . '/../codeigniter4/framework',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -162,6 +171,15 @@
             'install_path' => __DIR__ . '/../myclabs/deep-copy',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'myproject/codeigniter4-app' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '9cc43d048895840e0fd6a1fdaf6075ebfe0eba0b',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'nexusphp/cs-config' => array(
             'pretty_version' => 'v3.24.3',

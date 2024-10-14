@@ -70,7 +70,9 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            'corsfilter', 
+            // 'cors', // Cross-Origin Resource Sharing
+            'cors' => ['except' => ['api/*']],
+            // 'corsfilter', 
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',

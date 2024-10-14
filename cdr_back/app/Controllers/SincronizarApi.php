@@ -17,8 +17,6 @@ class SincronizarApi extends ResourceController
     {
         helper(['form', 'url']);
     }
-
-    // Método para procesar la carga de Excel
     // Método para procesar la carga de Excel o CSV
     public function uploadExcel()
     {
@@ -105,67 +103,78 @@ class SincronizarApi extends ResourceController
     public function sincronizarZoho()
     {
         try {
-            // Generar el token de acceso para Zoho Creator
+            // Creo un Token de acceso
             $token_creator = $this->generateTokenCreator();
-
-            if (!$token_creator) {
-                return $this->failServerError('Error al generar el token de acceso para Zoho.');
-            }
-
-            // Obtener las llamadas de la base de datos
+            // Obtengo las llamadas de la BD
             $llamadas = $this->model->getLlamadas();
-
-            if (empty($llamadas)) {
-                return $this->failNotFound('No hay llamadas para sincronizar.');
+            // Creo un array vacio
+            $nivel_dos = array();
+            // Valido que el array no este vacio
+            if (!empty($llamadas)) {
+                // Empiezo a iterar las llamadas
+                foreach ($llamadas as $key => $value) {
+                    // Meto las llamadas en un array nuevo
+                    $info_llamada = array(
+                        'id_CLIENTE' => $value['id_cdr'],
+                        'RAZON_SOCIAL' => $value['razon_social'],
+                        'FECHA' => date("m-d-Y", strtotime($value['fecha'])),
+                        'ORIGEN' => $value['origen'],
+                        'TIPO_TRAFICO' => $value['tipo_trafico'],
+                        'DESTINO' => $value['destino'],
+                        'TIPO_TEL_DESTINO' => $value['tipo_tel_destino'],
+                        'POBLACION_DESTINO' => $value['poblacion_destino'],
+                        'DURACION_MIN' => $value['duracion'],
+                        'TARIFA_BASE' => $value['tarifa_base'],
+                        'MONTO_FINAL' => $value['monto_final']
+                    );
+                    // Cada informacion de llamada la meto en el array vacio
+                    $nivel_dos[] = $info_llamada;
+                }
             }
 
-            $nivel_dos = [];
-            foreach ($llamadas as $value) {
-                $info_llamada = [
-                    'id_CLIENTE' => $value['id_cdr'],
-                    'RAZON_SOCIAL' => $value['razon_social'],
-                    'FECHA' => date("m-d-Y", strtotime($value['fecha'])),
-                    'ORIGEN' => $value['origen'],
-                    'TIPO_TRAFICO' => $value['tipo_trafico'],
-                    'DESTINO' => $value['destino'],
-                    'TIPO_TEL_DESTINO' => $value['tipo_tel_destino'],
-                    'POBLACION_DESTINO' => $value['poblacion_destino'],
-                    'DURACION_MIN' => $value['duracion'],
-                    'TARIFA_BASE' => $value['tarifa_base'],
-                    'MONTO_FINAL' => $value['monto_final']
-                ];
-                $nivel_dos[] = $info_llamada;
-            }
-
-            // Enviar los datos en paquetes de 200 registros
+            // Caundo termine de iterar las llamadas meto todas las llamadas en un array nuevo llamado data
             while (count($nivel_dos) > 0) {
                 $data200 = array_splice($nivel_dos, 0, 200);
-                $data = [
+                $data = array(
                     'data' => $data200,
-                    'result' => [
-                        'fields' => [
-                            'id_CLIENTE',
-                            'RAZON_SOCIAL',
-                            'FECHA',
-                            'ORIGEN',
-                            'TIPO_TRAFICO',
-                            'DESTINO',
-                            'TIPO_TEL_DESTINO',
-                            'POBLACION_DESTINO',
-                            'DURACION_MIN',
-                            'TARIFA_BASE',
-                            'MONTO_FINAL'
-                        ],
-                        'message' => true,
-                        'tasks' => true
-                    ]
-                ];
+                    'result' =>
+                        array(
+                            'fields' =>
+                                array(
+                                    0 => 'id_CLIENTE',
+                                    1 => 'RAZON_SOCIAL',
+                                    2 => 'FECHA',
+                                    3 => 'ORIGEN',
+                                    4 => 'TIPO_TRAFICO',
+                                    5 => 'DESTINO',
+                                    6 => 'TIPO_TEL_DESTINO',
+                                    7 => 'POBLACION_DESTINO',
+                                    8 => 'DURACION_MIN',
+                                    9 => 'TARIFA_BASE',
+                                    10 => 'MONTO_FINAL',
+                                ),
+                            'message' => true,
+                            'tasks' => true,
+                        )
+                );
 
-                // Enviar las llamadas a Zoho Creator
-                $this->insertLlamadaCreator($data, $token_creator);
+                // Finalmente inserto las llamadas
+                $response = $this->insertLlamadaCreator($data, $token_creator);
+
+                // Verificar la respuesta de la inserción
+                if ($response['status'] === 'error') {
+                    return $this->failServerError($response['message']);
+                }
             }
 
-            return $this->respond(['status' => 'success', 'message' => 'Sincronización exitosa'], 200);
+            // return $this->respond(['status' => 'success', 'message' => 'Sincronización exitosa'], 200);
+            return $this->respond([
+                'status' => 'success',
+                'message' => 'Sincronización exitosa',
+            ], 200)->setHeader('Access-Control-Allow-Origin', '*')
+                    ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+                    ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            
         } catch (\Exception $e) {
             log_message('error', 'Error al sincronizar con Zoho: ' . $e->getMessage());
             return $this->failServerError('Error al sincronizar con Zoho.');
@@ -175,59 +184,56 @@ class SincronizarApi extends ResourceController
 
     // Función para generar el token de acceso a Zoho Creator
     function generateTokenCreator()
-{
-    try {
-        $curl = curl_init();
+    {
+        try {
+            $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://accounts.zoho.com/oauth/v2/token",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => http_build_query([
-                'client_id' => '1000.YONV8KREOHCS32PH7RMYQ42HS1PP5H',
-                'client_secret' => 'fc3162f7f3e0ede057de01d7388d5a37a3d45cec07',
-                'refresh_token' => '1000.8491c97fb001da2800fa1616bc7c7599.38ee25ee9e88502e952583bec3b27932',
-                'grant_type' => 'refresh_token'
-            ]),
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/x-www-form-urlencoded"
-            ),
-        ));
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://accounts.zoho.com/oauth/v2/token",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => http_build_query([
+                    'client_id' => '1000.YONV8KREOHCS32PH7RMYQ42HS1PP5H',
+                    'client_secret' => 'fc3162f7f3e0ede057de01d7388d5a37a3d45cec07',
+                    'refresh_token' => '1000.8491c97fb001da2800fa1616bc7c7599.38ee25ee9e88502e952583bec3b27932',
+                    'grant_type' => 'refresh_token'
+                ]),
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/x-www-form-urlencoded"
+                ),
+            ));
 
-        $response = curl_exec($curl);
-        $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $response = curl_exec($curl);
+            $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-        // Si el status HTTP no es 200, registrar el error
-        if ($httpStatus != 200) {
-            log_message('error', 'Error al obtener el token de Zoho. HTTP Status: ' . $httpStatus . ' Response: ' . $response);
+            // Si el status HTTP no es 200, registrar el error
+            if ($httpStatus != 200) {
+                log_message('error', 'Error al obtener el token de Zoho. HTTP Status: ' . $httpStatus . ' Response: ' . $response);
+                curl_close($curl);
+                return null;
+            }
+
+            $obj = json_decode($response);
+
+            // Si no se puede decodificar la respuesta JSON, registrar el error
+            if (!$obj) {
+                log_message('error', 'Error al decodificar la respuesta de Zoho: ' . $response);
+                curl_close($curl);
+                return null;
+            }
+
             curl_close($curl);
+            return $obj->{'access_token'};
+        } catch (\Exception $e) {
+            log_message('error', 'Error al generar el token de acceso: ' . $e->getMessage());
             return null;
         }
-
-        $obj = json_decode($response);
-
-        // Si no se puede decodificar la respuesta JSON, registrar el error
-        if (!$obj) {
-            log_message('error', 'Error al decodificar la respuesta de Zoho: ' . $response);
-            curl_close($curl);
-            return null;
-        }
-
-        curl_close($curl);
-        return $obj->{'access_token'};
-    } catch (\Exception $e) {
-        log_message('error', 'Error al generar el token de acceso: ' . $e->getMessage());
-        return null;
     }
-}
-
-
-
     // Función para insertar las llamadas en Zoho Creator
     private function insertLlamadaCreator($data, $token_creator)
     {
@@ -235,7 +241,7 @@ class SincronizarApi extends ResourceController
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://creator.zoho.com/api/v2/tu_usuario/zoho-cdr/form/Detalle_de_Llamada1",
+                CURLOPT_URL => "https://creator.zoho.com/api/v2/juancarlosdelatorreayala/zoho-cdr/form/Detalle_de_Llamada1",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -246,29 +252,38 @@ class SincronizarApi extends ResourceController
                 CURLOPT_POSTFIELDS => json_encode($data),
                 CURLOPT_HTTPHEADER => array(
                     "Authorization: Zoho-oauthtoken " . $token_creator,
-                    "Content-Type: application/json",
+                    "Content-Type: text/plain",
+                    "Cookie: 442b5845d7=55cca134caca85650525fe1564fe26d7; zccpn=aa64348f-e71a-40ca-896b-24416154b376; _zcsr_tmp=aa64348f-e71a-40ca-896b-24416154b376; ZCNEWLIVEUI=true"
                 ),
             ));
 
             $response = curl_exec($curl);
 
-            // Si hay error en la ejecución del CURL, registrar el error
+            // Si hay error en la ejecución del CURL, registrar el error y retornar
             if (curl_errno($curl)) {
-                log_message('error', 'CURL Error: ' . curl_error($curl));
+                $errorMessage = 'CURL Error: ' . curl_error($curl);
+                log_message('error', $errorMessage);
+                curl_close($curl);
+                return ['status' => 'error', 'message' => $errorMessage];
             }
 
             // Verificar el código de estado HTTP
             $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             if ($httpStatus != 200) {
-                log_message('error', 'Error al sincronizar con Zoho. HTTP Status: ' . $httpStatus . ' Response: ' . $response);
+                $errorMessage = 'Error al sincronizar con Zoho. HTTP Status: ' . $httpStatus . ' Response: ' . $response;
+                log_message('error', $errorMessage);
+                curl_close($curl);
+                return ['status' => 'error', 'message' => $errorMessage];
             } else {
-                log_message('info', 'Sincronización exitosa con Zoho. Respuesta: ' . $response);
+                $successMessage = 'Sincronización exitosa con Zoho. Respuesta: ' . $response;
+                log_message('info', $successMessage);
+                curl_close($curl);
+                return ['status' => 'success', 'message' => $successMessage];
             }
-
-            curl_close($curl);
         } catch (\Exception $e) {
-            log_message('error', 'Error al insertar las llamadas en Zoho: ' . $e->getMessage());
+            $errorMessage = 'Error al insertar las llamadas en Zoho: ' . $e->getMessage();
+            log_message('error', $errorMessage);
+            return ['status' => 'error', 'message' => $errorMessage];
         }
     }
-
 }
