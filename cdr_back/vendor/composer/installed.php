@@ -3,7 +3,7 @@
         'name' => 'myproject/codeigniter4-app',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '73783097f5ffff86c116c18ca6242903aacd89f8',
+        'reference' => 'aec4c6ece824891d955b8ff073975ccfe8f1d19d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -100,6 +100,15 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'firebase/php-jwt' => array(
+            'pretty_version' => 'v6.10.1',
+            'version' => '6.10.1.0',
+            'reference' => '500501c2ce893c824c801da135d02661199f60c5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../firebase/php-jwt',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'friendsofphp/php-cs-fixer' => array(
             'pretty_version' => 'v3.64.0',
             'version' => '3.64.0.0',
@@ -175,7 +184,7 @@
         'myproject/codeigniter4-app' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '73783097f5ffff86c116c18ca6242903aacd89f8',
+            'reference' => 'aec4c6ece824891d955b8ff073975ccfe8f1d19d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -15,6 +15,7 @@
         "ext-mbstring": "*",
         "agungsugiarto/codeigniter4-cors": "^3.0",
         "codeigniter4/framework": "^4.3",
+        "firebase/php-jwt": "^6.10",
         "laminas/laminas-escaper": "^2.13",
         "phpoffice/phpspreadsheet": "^3.3",
         "psr/log": "^3.0"
@@ -52,7 +53,8 @@
     },
     "autoload": {
         "psr-4": {
-            "CodeIgniter\\": "system/"
+            "App\\": "app/",
+            "Config\\": "app/Config/"
         },
         "exclude-from-classmap": [
             "**/Database/Migrations/**"

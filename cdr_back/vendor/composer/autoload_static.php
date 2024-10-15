@@ -87,6 +87,7 @@ class ComposerStaticInit04bbd2fdedad22dc0245c7aa996c6cf0
         'F' => 
         array (
             'Fluent\\Cors\\' => 12,
+            'Firebase\\JWT\\' => 13,
             'Fidry\\CpuCoreCounter\\' => 21,
             'Faker\\' => 6,
         ),
@@ -100,6 +101,7 @@ class ComposerStaticInit04bbd2fdedad22dc0245c7aa996c6cf0
         ),
         'C' => 
         array (
+            'Config\\' => 7,
             'Composer\\XdebugHandler\\' => 23,
             'Composer\\Semver\\' => 16,
             'Composer\\Pcre\\' => 14,
@@ -107,6 +109,10 @@ class ComposerStaticInit04bbd2fdedad22dc0245c7aa996c6cf0
             'CodeIgniter\\CodingStandard\\' => 27,
             'CodeIgniter\\' => 12,
             'Clue\\React\\NDJson\\' => 18,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
@@ -268,6 +274,10 @@ class ComposerStaticInit04bbd2fdedad22dc0245c7aa996c6cf0
         array (
             0 => __DIR__ . '/..' . '/agungsugiarto/codeigniter4-cors/src',
         ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
         'Fidry\\CpuCoreCounter\\' => 
         array (
             0 => __DIR__ . '/..' . '/fidry/cpu-core-counter/src',
@@ -283,6 +293,10 @@ class ComposerStaticInit04bbd2fdedad22dc0245c7aa996c6cf0
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'Config\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Config',
         ),
         'Composer\\XdebugHandler\\' => 
         array (
@@ -306,12 +320,15 @@ class ComposerStaticInit04bbd2fdedad22dc0245c7aa996c6cf0
         ),
         'CodeIgniter\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/system',
-            1 => __DIR__ . '/..' . '/codeigniter4/framework/system',
+            0 => __DIR__ . '/..' . '/codeigniter4/framework/system',
         ),
         'Clue\\React\\NDJson\\' => 
         array (
             0 => __DIR__ . '/..' . '/clue/ndjson-react/src',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app',
         ),
     );
 
@@ -326,6 +343,13 @@ class ComposerStaticInit04bbd2fdedad22dc0245c7aa996c6cf0
     );
 
     public static $classMap = array (
+        'App\\Controllers\\BaseController' => __DIR__ . '/../..' . '/app/Controllers/BaseController.php',
+        'App\\Controllers\\BorrarRegistrosApi' => __DIR__ . '/../..' . '/app/Controllers/BorrarRegistrosApi.php',
+        'App\\Controllers\\Home' => __DIR__ . '/../..' . '/app/Controllers/Home.php',
+        'App\\Controllers\\SincronizarApi' => __DIR__ . '/../..' . '/app/Controllers/SincronizarApi.php',
+        'App\\Filters\\CorsFilter' => __DIR__ . '/../..' . '/app/Filters/CorsFilter.php',
+        'App\\Models\\BorrarModel' => __DIR__ . '/../..' . '/app/Models/BorrarModel.php',
+        'App\\Models\\SincronizarModel' => __DIR__ . '/../..' . '/app/Models/SincronizarModel.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'CURLStringFile' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
         'Clue\\React\\NDJson\\Decoder' => __DIR__ . '/..' . '/clue/ndjson-react/src/Decoder.php',
@@ -764,6 +788,42 @@ class ComposerStaticInit04bbd2fdedad22dc0245c7aa996c6cf0
         'Composer\\XdebugHandler\\Process' => __DIR__ . '/..' . '/composer/xdebug-handler/src/Process.php',
         'Composer\\XdebugHandler\\Status' => __DIR__ . '/..' . '/composer/xdebug-handler/src/Status.php',
         'Composer\\XdebugHandler\\XdebugHandler' => __DIR__ . '/..' . '/composer/xdebug-handler/src/XdebugHandler.php',
+        'Config\\App' => __DIR__ . '/../..' . '/app/Config/App.php',
+        'Config\\Autoload' => __DIR__ . '/../..' . '/app/Config/Autoload.php',
+        'Config\\CURLRequest' => __DIR__ . '/../..' . '/app/Config/CURLRequest.php',
+        'Config\\Cache' => __DIR__ . '/../..' . '/app/Config/Cache.php',
+        'Config\\ContentSecurityPolicy' => __DIR__ . '/../..' . '/app/Config/ContentSecurityPolicy.php',
+        'Config\\Cookie' => __DIR__ . '/../..' . '/app/Config/Cookie.php',
+        'Config\\Cors' => __DIR__ . '/../..' . '/app/Config/Cors.php',
+        'Config\\Database' => __DIR__ . '/../..' . '/app/Config/Database.php',
+        'Config\\DocTypes' => __DIR__ . '/../..' . '/app/Config/DocTypes.php',
+        'Config\\Email' => __DIR__ . '/../..' . '/app/Config/Email.php',
+        'Config\\Encryption' => __DIR__ . '/../..' . '/app/Config/Encryption.php',
+        'Config\\Exceptions' => __DIR__ . '/../..' . '/app/Config/Exceptions.php',
+        'Config\\Feature' => __DIR__ . '/../..' . '/app/Config/Feature.php',
+        'Config\\Filters' => __DIR__ . '/../..' . '/app/Config/Filters.php',
+        'Config\\ForeignCharacters' => __DIR__ . '/../..' . '/app/Config/ForeignCharacters.php',
+        'Config\\Format' => __DIR__ . '/../..' . '/app/Config/Format.php',
+        'Config\\Generators' => __DIR__ . '/../..' . '/app/Config/Generators.php',
+        'Config\\Honeypot' => __DIR__ . '/../..' . '/app/Config/Honeypot.php',
+        'Config\\Images' => __DIR__ . '/../..' . '/app/Config/Images.php',
+        'Config\\Kint' => __DIR__ . '/../..' . '/app/Config/Kint.php',
+        'Config\\Logger' => __DIR__ . '/../..' . '/app/Config/Logger.php',
+        'Config\\Migrations' => __DIR__ . '/../..' . '/app/Config/Migrations.php',
+        'Config\\Mimes' => __DIR__ . '/../..' . '/app/Config/Mimes.php',
+        'Config\\Modules' => __DIR__ . '/../..' . '/app/Config/Modules.php',
+        'Config\\Optimize' => __DIR__ . '/../..' . '/app/Config/Optimize.php',
+        'Config\\Pager' => __DIR__ . '/../..' . '/app/Config/Pager.php',
+        'Config\\Paths' => __DIR__ . '/../..' . '/app/Config/Paths.php',
+        'Config\\Publisher' => __DIR__ . '/../..' . '/app/Config/Publisher.php',
+        'Config\\Routing' => __DIR__ . '/../..' . '/app/Config/Routing.php',
+        'Config\\Security' => __DIR__ . '/../..' . '/app/Config/Security.php',
+        'Config\\Services' => __DIR__ . '/../..' . '/app/Config/Services.php',
+        'Config\\Session' => __DIR__ . '/../..' . '/app/Config/Session.php',
+        'Config\\Toolbar' => __DIR__ . '/../..' . '/app/Config/Toolbar.php',
+        'Config\\UserAgents' => __DIR__ . '/../..' . '/app/Config/UserAgents.php',
+        'Config\\Validation' => __DIR__ . '/../..' . '/app/Config/Validation.php',
+        'Config\\View' => __DIR__ . '/../..' . '/app/Config/View.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
         'DeepCopy\\Exception\\CloneException' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',
         'DeepCopy\\Exception\\PropertyException' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/Exception/PropertyException.php',
@@ -1326,6 +1386,14 @@ class ComposerStaticInit04bbd2fdedad22dc0245c7aa996c6cf0
         'Fidry\\CpuCoreCounter\\Finder\\_NProcessorFinder' => __DIR__ . '/..' . '/fidry/cpu-core-counter/src/Finder/_NProcessorFinder.php',
         'Fidry\\CpuCoreCounter\\NumberOfCpuCoreNotFound' => __DIR__ . '/..' . '/fidry/cpu-core-counter/src/NumberOfCpuCoreNotFound.php',
         'Fidry\\CpuCoreCounter\\ParallelisationResult' => __DIR__ . '/..' . '/fidry/cpu-core-counter/src/ParallelisationResult.php',
+        'Firebase\\JWT\\BeforeValidException' => __DIR__ . '/..' . '/firebase/php-jwt/src/BeforeValidException.php',
+        'Firebase\\JWT\\CachedKeySet' => __DIR__ . '/..' . '/firebase/php-jwt/src/CachedKeySet.php',
+        'Firebase\\JWT\\ExpiredException' => __DIR__ . '/..' . '/firebase/php-jwt/src/ExpiredException.php',
+        'Firebase\\JWT\\JWK' => __DIR__ . '/..' . '/firebase/php-jwt/src/JWK.php',
+        'Firebase\\JWT\\JWT' => __DIR__ . '/..' . '/firebase/php-jwt/src/JWT.php',
+        'Firebase\\JWT\\JWTExceptionWithPayloadInterface' => __DIR__ . '/..' . '/firebase/php-jwt/src/JWTExceptionWithPayloadInterface.php',
+        'Firebase\\JWT\\Key' => __DIR__ . '/..' . '/firebase/php-jwt/src/Key.php',
+        'Firebase\\JWT\\SignatureInvalidException' => __DIR__ . '/..' . '/firebase/php-jwt/src/SignatureInvalidException.php',
         'Fluent\\Cors\\Commands\\CorsCommand' => __DIR__ . '/..' . '/agungsugiarto/codeigniter4-cors/src/Commands/CorsCommand.php',
         'Fluent\\Cors\\Config\\Cors' => __DIR__ . '/..' . '/agungsugiarto/codeigniter4-cors/src/Config/Cors.php',
         'Fluent\\Cors\\Config\\Services' => __DIR__ . '/..' . '/agungsugiarto/codeigniter4-cors/src/Config/Services.php',
