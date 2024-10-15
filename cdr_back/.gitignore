@@ -18,9 +18,9 @@
 # Ignorar los archivos de caché de CodeIgniter
 /writable/cache/
 /writable/logs/
-# /writable/debugbar/
+/writable/debugbar/
 /writable/session/
-# /writable/sessions/
+/writable/sessions/
 
 # Ignorar archivos temporales o de backup
 *.bak
