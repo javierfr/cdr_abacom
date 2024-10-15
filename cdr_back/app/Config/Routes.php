@@ -13,4 +13,9 @@ $routes->group('api', function($routes) {
     $routes->post('sincronizar/uploadExcel', 'SincronizarApi::uploadExcel');
     // Api para sincronizar los registros de la base de datos con Zoho Creator
     $routes->post('sincronizar/zoho', 'SincronizarApi::sincronizarZoho');
+    // Api para 
+    $routes->post('auth/login', 'AuthController::login');
+
+    $routes->post('auth/verify', 'AuthController::verifyToken');
+
 });

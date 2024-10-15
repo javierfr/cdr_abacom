@@ -33,3 +33,5 @@
 # Ignorar los archivos que PhpSpreadsheet genera temporalmente
 *.xlsx
 *.csv
+# Ignorar la carpeta de system
+/system/
