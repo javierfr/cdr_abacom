@@ -15,7 +15,11 @@ class AuthController extends ResourceController
     public function __construct()
     {
         $this->usuarioModel = new UsuarioModel();
-        $this->secretKey = getenv('JWT_SECRET');
+        // $this->secretKey = getenv('JWT_SECRET');
+        $this->secretKey = getenv('JWT_SECRET_KEY');
+        if (!$this->secretKey) {
+            throw new \RuntimeException('JWT_SECRET_KEY no está configurada');
+        }
     }
 
     public function login()
@@ -42,16 +46,22 @@ class AuthController extends ResourceController
             return $this->fail('Credenciales de acceso incorrectas');
         }
 
+        // Obtener la clave secreta desde el archivo .env
+        $secretKey = getenv('JWT_SECRET_KEY');
+        $expirationTime = getenv('JWT_EXPIRATION') ?: 3600; 
+
         // Crear token JWT
         $tokenData = [
             'id_usuario' => $usuario['id_usuario'],
             'usu_nombres' => $usuario['usu_nombres'],
             'email' => $usuario['usu_email'],
             'iat' => time(),
-            'exp' => time() + 3600 // Expira en 1 hora
+            'exp' => time() + $expirationTime
         ];
+        // Generar el token JWT
+        $token = JWT::encode($tokenData, $secretKey, 'HS256');
 
-        $token = JWT::encode($tokenData, $this->secretKey, 'HS256');
+        // $token = JWT::encode($tokenData, $this->secretKey, 'HS256');
 
         // return $this->respond([
         //     'status' => 200,

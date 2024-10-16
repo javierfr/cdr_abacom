@@ -1,6 +1,6 @@
 // angular import
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
@@ -42,7 +42,7 @@ export class NavRightComponent {
   windowWidth: number;
   screenFull: boolean = true;
 
-  constructor(private iconService: IconService) {
+  constructor(private iconService: IconService, private router: Router) {
     this.windowWidth = window.innerWidth;
     this.iconService.addIcon(
       ...[
@@ -108,4 +108,9 @@ export class NavRightComponent {
       title: 'History'
     }
   ];
+
+  logout(): void {
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/login']); // Redirige al login tras cerrar sesión
+  }
 }

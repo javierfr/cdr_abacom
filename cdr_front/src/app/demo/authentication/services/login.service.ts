@@ -8,6 +8,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 export class LoginService {
 
   private apiUrl = 'http://localhost:8080/api/auth/';
+  router: any;
 
   constructor(private http: HttpClient) { }
 
@@ -38,9 +39,13 @@ export class LoginService {
       );
   }
 
-  logout(): void {
-    localStorage.removeItem('authToken');
-  }
+  // logout(): void {
+  //   localStorage.removeItem('authToken');
+  // }
+  // logout(): void {
+  //   localStorage.removeItem('authToken');
+  //   this.router.navigate(['/login']); // Redirige al login tras cerrar sesión
+  // }
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('authToken');

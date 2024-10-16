@@ -37,9 +37,9 @@ export default class LoginComponent {
   login(): void {
     this.loginService.login(this.email, this.password).subscribe({
       next: (response) => {
-        alert('Inicio de sesión exitoso');
+        // alert('Inicio de sesión exitoso');
         // Puedes redirigir al dashboard o a otra página
-        // this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard/default']);
       },
       error: (error) => {
         console.error('Error:', error.message);

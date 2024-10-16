@@ -104,7 +104,8 @@
             <h6 class="mb-0">JWT User</h6>
             <span>UI/UX Designer</span>
           </div>
-          <a href="javascript:" class="bg-transparent"><i class="d-flex f-20" antIcon theme="outline" type="logout"></i></a>
+          <a href="javascript:" class="bg-transparent" (click)="logout()"><i class="d-flex f-20" antIcon theme="outline" type="logout"></i></a>
+          
         </div>
       </div>
       <ul ngbNav #nav="ngbNav" class="nav drp-tabs nav-fill nav-tabs">
@@ -123,7 +124,7 @@
               </div>
             }
             <div>
-              <a class="dropdown-item">
+              <a class="dropdown-item" (click)="logout()">
                 <i class="text-muted" antIcon theme="outline" type="logout"></i>
                 <span>Logout</span>
               </a>

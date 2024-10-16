@@ -35,6 +35,8 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'corsfilter' => \App\Filters\CorsFilter::class,
+        'authJWT' => \App\Filters\AuthJWT::class,
+        // 'authJWT' => AuthJWT::class, 
     ];
 
     /**
@@ -78,6 +80,7 @@ class Filters extends BaseFilters
             // 'invalidchars',
         ],
         'after' => [
+            'authJWT' => ['except' => ['auth/*']], // Usa esto si quieres aplicar el filtro a todas las rutas excepto a las de autenticación
             // 'honeypot',
             // 'secureheaders',
         ],
