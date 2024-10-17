@@ -7,7 +7,8 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 })
 export class LoginService {
 
-  private apiUrl = 'http://localhost:8080/api/auth/';
+  // private apiUrl = 'http://localhost:8080/api/auth/';
+  private apiUrl = 'https://cdr.abacom.mx/api/auth/';
   router: any;
 
   constructor(private http: HttpClient) { }
