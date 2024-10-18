@@ -8,7 +8,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 export class SincronizarService {
 
   // private apiUrl = 'http://localhost:8080/api/sincronizar/';  // URL del endpoint de CodeIgniter
-  private apiUrl = 'https://cdr.abacom.mx/api/sincronizar/';  // URL del endpoint de CodeIgniter
+  // private apiUrl = 'https://cdr.abacom.mx/api/sincronizar/';  // URL del endpoint de CodeIgniter
 
   constructor(private http: HttpClient) { }
 
