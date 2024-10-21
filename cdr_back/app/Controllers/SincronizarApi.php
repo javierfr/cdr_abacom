@@ -20,6 +20,8 @@ class SincronizarApi extends ResourceController
     // Método para procesar la carga de Excel o CSV
     public function uploadExcel()
     {
+        // Extiende el tiempo de ejecución a 5 minutos (300 segundos)
+        set_time_limit(300);
         // Reglas de validación para aceptar tanto CSV como XLSX
         $validationRule = [
             'file' => [
