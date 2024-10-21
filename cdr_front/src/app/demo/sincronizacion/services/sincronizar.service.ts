@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -7,7 +7,8 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class SincronizarService {
 
-  private apiUrl = 'http://cdr.abacom.mx/api/sincronizar/';  // URL del endpoint de CodeIgniter
+  // private apiUrl = 'http://localhost:8080/api/sincronizar/';  // URL del endpoint de CodeIgniter
+  private apiUrl = 'https://cdr.abacom.mx/api/sincronizar/';  // URL del endpoint de CodeIgniter
 
   constructor(private http: HttpClient) { }
 
@@ -15,8 +16,8 @@ export class SincronizarService {
   uploadExcel(file: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file);  // Añadimos el archivo al FormData
-
-    return this.http.post(this.apiUrl + 'uploadExcel', formData).pipe(
+  
+    return this.http.post(this.apiUrl+'uploadExcel', formData).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMsg = 'Error desconocido al subir el archivo';
         if (error.error instanceof ErrorEvent) {
@@ -30,19 +31,22 @@ export class SincronizarService {
       })
     );
   }
-
+ 
   // Método para sincronizar con Zoho
   sincronizarZoho(): Observable<any> {
-    return this.http.post(this.apiUrl + 'zoho', {}).pipe(
-      catchError((error: HttpErrorResponse) => {
-        let errorMsg = 'Error desconocido al sincronizar con Zoho';
-        if (error.error instanceof ErrorEvent) {
-          errorMsg = `Error del cliente: ${error.error.message}`;
-        } else {
-          errorMsg = `Error del servidor: ${error.status} - ${error.statusText}`;
-        }
-        return throwError(() => new Error(errorMsg));
-      })
-    );
+    return this.http.post(this.apiUrl + 'zoho', {})
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          let errorMsg = 'Error desconocido al sincronizar con Zoho';
+          if (error.error instanceof ErrorEvent) {
+            // Error del cliente
+            errorMsg = `Error del cliente: ${error.error.message}`;
+          } else {
+            // Error del servidor
+            errorMsg = `Error del servidor: ${error.status} - ${error.statusText}`;
+          }
+          return throwError(() => new Error(errorMsg));
+        })
+      );
   }
 }
