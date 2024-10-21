@@ -14,10 +14,15 @@ export class SincronizarService {
 
   // Método para subir el archivo Excel
   uploadExcel(file: File): Observable<any> {
+    const headers = new HttpHeaders({
+      'enctype': 'multipart/form-data'
+    });
+
+    
     const formData: FormData = new FormData();
     formData.append('file', file);  // Añadimos el archivo al FormData
   
-    return this.http.post(this.apiUrl+'uploadExcel', formData).pipe(
+    return this.http.post(this.apiUrl+'uploadExcel', formData, { headers }).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMsg = 'Error desconocido al subir el archivo';
         if (error.error instanceof ErrorEvent) {
