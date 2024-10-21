@@ -20,16 +20,8 @@ export default class SincronizarComponent {
 
   // Método que se ejecuta cuando se selecciona un archivo
   onFileSelected(event: any) {
-    const maxSizeInMB = 10; // Tamaño máximo de archivo permitido, por ejemplo, 10 MB
     this.selectedFile = event.target.files[0];
-  
     if (this.selectedFile) {
-      if (this.selectedFile.size > maxSizeInMB * 1024 * 1024) {
-        this.showAlert = true;
-        this.alertMessage = `El archivo excede el tamaño máximo de ${maxSizeInMB} MB`;
-        this.alertType = 'danger';
-        return;
-      }
       this.showAlert = false;
       console.log('Archivo seleccionado:', this.selectedFile.name);
     } else {
@@ -37,7 +29,7 @@ export default class SincronizarComponent {
       this.alertMessage = 'Por favor selecciona un archivo';
     }
   }
-  
+
   // Método para manejar la subida del archivo
   onUpload() {
     if (this.selectedFile) {
